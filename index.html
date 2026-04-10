@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monitor · any-FLOW</title>
+<title>Monitor · Peterpack/title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -330,7 +330,7 @@
 <body>
 
 <header>
-  <span class="brand">any-FLOW · Monitor</span>
+  <span class="brand">Peterpack · Monitor</span>
   <div class="live-pill">
     <div class="live-dot" id="liveDot"></div>
     <span id="liveLabel">Conectando…</span>
@@ -369,7 +369,7 @@
     <div class="mini-val service" id="lastService">—</div>
   </div>
   <div class="mini">
-    <div class="label">Último RESET</div>
+    <div class="label">Último RESET automatico</div>
     <div class="mini-val reset" id="lastReset">—</div>
   </div>
 </div>
@@ -377,7 +377,7 @@
 <!-- Historial -->
 <div class="history-card">
   <div class="history-header">
-    <div class="label">Historial</div>
+    <div class="label">Historial de cambios de estado</div>
     <div class="filters">
       <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todo</button>
       <button class="filter-btn" data-filter="FAULT" onclick="setFilter('FAULT', this)">Fault</button>
@@ -390,7 +390,7 @@
   </div>
 </div>
 
-<footer>firebase realtime · <span id="footerClock">—</span></footer>
+<footer>Peterpack Clock · <span id="footerClock">—</span></footer>
 
 <!-- Firebase Compat SDK (funciona en Safari/iPhone sin módulos ES) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
