@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monitor · any-FLOW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0e0f11;
+    --surface:  #16181c;
+    --border:   #242629;
+    --text:     #e8e9eb;
+    --muted:    #5a5d65;
+    --fault:    #f5593e;
+    --service:  #f0b429;
+    --primed:   #3ecf8e;
+    --reset:    #6c8ef5;
+    --unknown:  #5a5d65;
+    --mono:     'DM Mono', monospace;
+    --sans:     'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    padding: 28px 18px 60px;
+    max-width: 500px;
+    margin: 0 auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .live-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--primed);
+    -webkit-animation: pulse 2s infinite;
+    animation: pulse 2s infinite;
+  }
+  @-webkit-keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 20px;
+    margin-bottom: 12px;
+  }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .state-badge {
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-align-items: center;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+  }
+  .state-badge.fault     { background: #f5593e14; color: var(--fault); }
+  .state-badge.servicing { background: #f0b42914; color: var(--service); }
+  .state-badge.primed    { background: #3ecf8e14; color: var(--primed); }
+  .state-badge.reset     { background: #6c8ef514; color: var(--reset); }
+  .state-badge.unknown   { background: #ffffff08; color: var(--muted); }
+
+  .state-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+  }
+  .state-badge.fault .state-dot {
+    -webkit-animation: blink 0.9s step-start infinite;
+    animation: blink 0.9s step-start infinite;
+  }
+  @-webkit-keyframes blink { 50% { opacity: 0; } }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .meta-grid {
+    display: -webkit-flex;
+    display: flex;
+    gap: 8px;
+  }
+  .meta-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    gap: 3px;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .grid2 {
+    display: -webkit-flex;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .mini {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+  .mini-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .mini-val.service { color: var(--service); }
+  .mini-val.reset   { color: var(--reset); }
+
+  .history-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .history-header {
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .history-header .label { margin: 0; }
+
+  .filters {
+    display: -webkit-flex;
+    display: flex;
+    gap: 4px;
+  }
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .filter-btn:hover         { color: var(--text); border-color: var(--muted); }
+  .filter-btn.active        { background: var(--border); color: var(--text); }
+  .filter-btn.active.fault  { border-color: var(--fault); color: var(--fault); background: #f5593e0d; }
+  .filter-btn.active.service{ border-color: var(--service); color: var(--service); background: #f0b4290d; }
+  .filter-btn.active.primed { border-color: var(--primed); color: var(--primed); background: #3ecf8e0d; }
+
+  .history-list {
+    max-height: 360px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .history-list::-webkit-scrollbar { width: 3px; }
+  .history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .h-item {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--border);
+    -webkit-animation: fadeIn 0.25s ease;
+    animation: fadeIn 0.25s ease;
+  }
+  .h-item:last-child { border-bottom: none; }
+  @-webkit-keyframes fadeIn {
+    from { opacity: 0; -webkit-transform: translateY(-4px); transform: translateY(-4px); }
+    to   { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .h-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+  }
+  .h-dot.fault     { background: var(--fault); }
+  .h-dot.servicing { background: var(--service); }
+  .h-dot.primed    { background: var(--primed); }
+  .h-dot.reset     { background: var(--reset); }
+  .h-dot.unknown   { background: var(--unknown); }
+
+  .h-state {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+  .h-state.fault     { color: var(--fault); }
+  .h-state.servicing { color: var(--service); }
+  .h-state.primed    { color: var(--primed); }
+  .h-state.reset     { color: var(--reset); }
+  .h-state.unknown   { color: var(--muted); }
+
+  .h-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .empty {
+    padding: 28px;
+    text-align: center;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .countdown-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .countdown-fill {
+    height: 100%;
+    background: var(--primed);
+    border-radius: 1px;
+    -webkit-transition: width 1s linear, background 0.3s;
+    transition: width 1s linear, background 0.3s;
+  }
+
+  footer {
+    margin-top: 24px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+  }
+
+  .error-banner {
+    background: #f5593e14;
+    border: 1px solid var(--fault);
+    color: var(--fault);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    margin-bottom: 12px;
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="brand">any-FLOW · Monitor</span>
+  <div class="live-pill">
+    <div class="live-dot" id="liveDot"></div>
+    <span id="liveLabel">Conectando…</span>
+  </div>
+</header>
+
+<div class="countdown-bar">
+  <div class="countdown-fill" id="countdownFill" style="width:100%"></div>
+</div>
+
+<div class="error-banner" id="errorBanner">⚠ Error de conexión. Verifica tu red.</div>
+
+<!-- Estado actual -->
+<div class="card">
+  <div class="label">Estado actual</div>
+  <div class="state-badge unknown" id="stateBadge">
+    <div class="state-dot"></div>
+    <span id="stateText">—</span>
+  </div>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <span class="meta-label">Actualizado</span>
+      <span class="meta-val" id="updatedAt">—</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Próxima lectura</span>
+      <span class="meta-val" id="nextRead">—</span>
+    </div>
+  </div>
+</div>
+
+<!-- Mini cards -->
+<div class="grid2">
+  <div class="mini">
+    <div class="label">Último SERVICING</div>
+    <div class="mini-val service" id="lastService">—</div>
+  </div>
+  <div class="mini">
+    <div class="label">Último RESET</div>
+    <div class="mini-val reset" id="lastReset">—</div>
+  </div>
+</div>
+
+<!-- Historial -->
+<div class="history-card">
+  <div class="history-header">
+    <div class="label">Historial</div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todo</button>
+      <button class="filter-btn" data-filter="FAULT" onclick="setFilter('FAULT', this)">Fault</button>
+      <button class="filter-btn" data-filter="SERVICING" onclick="setFilter('SERVICING', this)">Svc</button>
+      <button class="filter-btn" data-filter="PRIMED_IDLE" onclick="setFilter('PRIMED_IDLE', this)">Primed</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList">
+    <div class="empty">Cargando…</div>
+  </div>
+</div>
+
+<footer>firebase realtime · <span id="footerClock">—</span></footer>
+
+<!-- Firebase Compat SDK (funciona en Safari/iPhone sin módulos ES) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey:            "AIzaSyBXsuOvQk-JVtXP_EnWf2K-txONns4IUWk",
+    authDomain:        "monitor-maquina-22b37.firebaseapp.com",
+    projectId:         "monitor-maquina-22b37",
+    storageBucket:     "monitor-maquina-22b37.firebasestorage.app",
+    messagingSenderId: "624010630834",
+    appId:             "1:624010630834:web:7105f06566b0ff5b935bab",
+    databaseURL:       "https://monitor-maquina-22b37-default-rtdb.firebaseio.com"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.database();
+
+  function $(id) { return document.getElementById(id); }
+
+  // ── Countdown bar ─────────────────────────────────────
+  var countdownSec = 10;
+  setInterval(function() {
+    countdownSec = countdownSec <= 1 ? 10 : countdownSec - 1;
+    var pct = (countdownSec / 10) * 100;
+    $("countdownFill").style.width = pct + "%";
+    $("nextRead").textContent = countdownSec + "s";
+  }, 1000);
+
+  // ── Reloj footer ──────────────────────────────────────
+  function tickClock() {
+    $("footerClock").textContent = new Date().toLocaleTimeString("es-HN");
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  // ── Helpers ───────────────────────────────────────────
+  function stateClass(state) {
+    var s = (state || "").toUpperCase().replace("-", "_");
+    if (s === "FAULT")       return "fault";
+    if (s === "SERVICING")   return "servicing";
+    if (s === "PRIMED_IDLE") return "primed";
+    if (s === "RESET")       return "reset";
+    return "unknown";
+  }
+
+  function fmtTs(ts) {
+    if (!ts) return "—";
+    var d = new Date(ts.replace(" ", "T"));
+    if (isNaN(d.getTime())) return ts;
+    try {
+      return d.toLocaleString("es-HN", {
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    } catch(e) {
+      // Fallback si toLocaleString falla en Safari antiguo
+      var pad = function(n) { return n < 10 ? "0" + n : n; };
+      return d.getDate() + "/" + (d.getMonth()+1) + " " +
+             pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+  }
+
+  // ── Estado actual ─────────────────────────────────────
+  db.ref("current_status").on("value", function(snap) {
+    var d = snap.val();
+    if (!d) return;
+
+    var cls = stateClass(d.state);
+    $("stateBadge").className = "state-badge " + cls;
+    $("stateText").textContent = d.state || "—";
+    $("updatedAt").textContent = fmtTs(d.updated_at);
+
+    countdownSec = 10;
+    $("countdownFill").style.width = "100%";
+  }, function(err) {
+    $("errorBanner").style.display = "block";
+    console.error("Firebase current_status error:", err);
+  });
+
+  // ── Último reset ──────────────────────────────────────
+  db.ref("last_reset").on("value", function(snap) {
+    var d = snap.val();
+    if (!d) return;
+    $("lastReset").textContent = fmtTs(d.timestamp);
+  });
+
+  // ── Historial ─────────────────────────────────────────
+  var allHistory = [];
+  var activeFilter = "all";
+
+  window.setFilter = function(filter, btn) {
+    activeFilter = filter;
+    var btns = document.querySelectorAll(".filter-btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.remove("active", "fault", "service", "primed");
+    }
+    btn.classList.add("active");
+    if (filter === "FAULT")       btn.classList.add("fault");
+    if (filter === "SERVICING")   btn.classList.add("service");
+    if (filter === "PRIMED_IDLE") btn.classList.add("primed");
+    renderHistory();
+  };
+
+  function renderHistory() {
+    var items = activeFilter === "all"
+      ? allHistory
+      : allHistory.filter(function(i) {
+          return (i.state || "").toUpperCase() === activeFilter;
+        });
+
+    if (items.length === 0) {
+      $("historyList").innerHTML = '<div class="empty">Sin eventos</div>';
+      return;
+    }
+
+    var html = "";
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var s   = (item.state || "").toUpperCase();
+      var cls = stateClass(s);
+      var lbl = s === "RESET"
+        ? "RESET #" + (item.reset_num || "") + (item.success === false ? " (falló)" : "")
+        : s || "—";
+      html += '<div class="h-item">' +
+        '<div class="h-dot ' + cls + '"></div>' +
+        '<span class="h-state ' + cls + '">' + lbl + '</span>' +
+        '<span class="h-time">' + fmtTs(item.timestamp) + '</span>' +
+        '</div>';
+    }
+    $("historyList").innerHTML = html;
+  }
+
+  db.ref("history")
+    .orderByChild("timestamp")
+    .limitToLast(100)
+    .on("value", function(snap) {
+      allHistory = [];
+      snap.forEach(function(child) {
+        allHistory.push(child.val());
+      });
+      allHistory.reverse();
+
+      var svc = null;
+      for (var i = 0; i < allHistory.length; i++) {
+        if ((allHistory[i].state || "").toUpperCase() === "SERVICING") {
+          svc = allHistory[i];
+          break;
+        }
+      }
+      $("lastService").textContent = svc ? fmtTs(svc.timestamp) : "—";
+
+      renderHistory();
+    }, function(err) {
+      $("errorBanner").style.display = "block";
+      console.error("Firebase history error:", err);
+    });
+
+  // ── Indicador de conexión ─────────────────────────────
+  db.ref(".info/connected").on("value", function(snap) {
+    var dot   = $("liveDot");
+    var label = $("liveLabel");
+    if (snap.val()) {
+      dot.style.background  = "var(--primed)";
+      dot.style.webkitAnimation = "pulse 2s infinite";
+      dot.style.animation   = "pulse 2s infinite";
+      label.textContent     = "EN VIVO";
+      $("errorBanner").style.display = "none";
+    } else {
+      dot.style.background  = "var(--fault)";
+      dot.style.webkitAnimation = "none";
+      dot.style.animation   = "none";
+      label.textContent     = "SIN CONEXIÓN";
+    }
+  });
+</script>
+</body>
+</html>
