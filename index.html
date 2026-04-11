@@ -3,6 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>En Mantenimiento · Peterpack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0e0f11;
+    --surface: #16181c;
+    --border:  #242629;
+    --text:    #e8e9eb;
+    --muted:   #5a5d65;
+    --service: #f0b429;
+    --mono:    'DM Mono', monospace;
+    --sans:    'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 18px;
+    text-align: center;
+  }
+
+  .icon {
+    font-size: 72px;
+    margin-bottom: 2rem;
+    animation: spin 4s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-15deg); }
+    75%  { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0b42914;
+    border: 1px solid #f0b42930;
+    color: var(--service);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--service);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  footer {
+    position: fixed;
+    bottom: 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+  }
+</style>
+</head>
+<body>
+
+  <div class="icon">🔧</div>
+
+  <h1>En mantenimiento</h1>
+
+  <p class="sub">Peterpack · Monitor</p>
+
+  <div class="badge">
+    <div class="badge-dot"></div>
+    Volveremos pronto
+  </div>
+
+  <footer>Peterpack</footer>
+
+</body>
+</html>
+
+<!--
+  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monitor · Peterpack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -570,3 +696,5 @@
 </script>
 </body>
 </html>
+
+-->
