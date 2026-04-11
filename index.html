@@ -119,7 +119,7 @@
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--cyan-glow); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--primed); }
     50%       { opacity: 0.6; box-shadow: 0 0 0 4px transparent; }
   }
 
@@ -283,8 +283,8 @@
     line-height: 1.4;
   }
 
-  .mini-val.service { color: var(--gold); }
-  .mini-val.reset   { color: var(--lime); }
+  .mini-val.service { color: var(--service); }
+  .mini-val.reset   { color: var(--reset); }
 
   /* ── History card ── */
   .history-card {
@@ -415,7 +415,7 @@
 <body>
 
 <header>
-
+ <span class="brand">Peterpack · Monitor</span>
   <div class="live-pill">
     <div class="live-dot" id="liveDot"></div>
     <span id="liveLabel">Conectando…</span>
