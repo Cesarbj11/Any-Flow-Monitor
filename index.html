@@ -27,7 +27,7 @@
     --gold-dim:  #f5a62318;
     --navy:      #2d3a52;
 
-    --fault:     #f5593e;
+    --fault:    #f5593e;
     --service:  #f0b429;
     --primed:   #3ecf8e;
     --reset:    #6c8ef5;
@@ -196,16 +196,17 @@
     border: 1px solid transparent;
   }
 
-  .state-badge.fault     { background: #f5593e10; color: var(--fault);   border-color: #f5593e25; }
-  .state-badge.servicing { background: #f0b429; color: #f0b429;   border-color: #f0b429; }
-  .state-badge.primed    { background: #3ecf8e; color: #3ecf8e;   border-color:#3ecf8e; }
-  .state-badge.reset     { background: #6c8ef5; color: #6c8ef5;   border-color: #6c8ef5; }
-  .state-badge.unknown   { background: #ffffff06;  color: var(--muted2); border-color: var(--border); }
+  .state-badge.fault     { background: #f5593e14; color: var(--fault); }
+  .state-badge.servicing { background: #f0b42914; color: var(--service); }
+  .state-badge.primed    { background: #3ecf8e14; color: var(--primed); }
+  .state-badge.reset     { background: #6c8ef514; color: var(--reset); }
+  .state-badge.unknown   { background: #ffffff08; color: var(--muted); } }
 
   .state-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
     background: currentColor;
+    -webkit-flex-shrink: 0;
     flex-shrink: 0;
   }
 
@@ -325,12 +326,12 @@
     appearance: none;
   }
 
-  .filter-btn:hover          { color: var(--text); border-color: var(--muted2); }
-  .filter-btn.active         { background: var(--border2); color: var(--text); }
-  .filter-btn.active.fault   { border-color: var(--fault); color: var(--fault); background: #f5593e0d; }
-  .filter-btn.active.service { border-color: var(--gold);  color: var(--gold);  background: var(--gold-dim); }
-  .filter-btn.active.primed  { border-color: var(--cyan);  color: var(--cyan);  background: var(--cyan-dim); }
-
+  .filter-btn:hover         { color: var(--text); border-color: var(--muted); }
+  .filter-btn.active        { background: var(--border); color: var(--text); }
+  .filter-btn.active.fault  { border-color: var(--fault); color: var(--fault); background: #f5593e0d; }
+  .filter-btn.active.service{ border-color: var(--service); color: var(--service); background: #f0b4290d; }
+  .filter-btn.active.primed { border-color: var(--primed); color: var(--primed); background: #3ecf8e0d; }
+  
   .history-list {
     max-height: 360px;
     overflow-y: auto;
