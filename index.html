@@ -364,9 +364,9 @@
   }
 
   .h-dot.fault     { background: var(--fault); }
-  .h-dot.servicing { background: var(--gold); }
-  .h-dot.primed    { background: var(--cyan); }
-  .h-dot.reset     { background: var(--lime); }
+  .h-dot.servicing { background: var(--service); }
+  .h-dot.primed    { background: var(--primed); }
+  .h-dot.reset     { background: var(--reset); }
   .h-dot.unknown   { background: var(--unknown); }
 
   .h-state {
@@ -377,10 +377,10 @@
   }
 
   .h-state.fault     { color: var(--fault); }
-  .h-state.servicing { color: var(--gold); }
-  .h-state.primed    { color: var(--cyan); }
-  .h-state.reset     { color: var(--lime); }
-  .h-state.unknown   { color: var(--muted2); }
+  .h-state.servicing { color: var(--service); }
+  .h-state.primed    { color: var(--primed); }
+  .h-state.reset     { color: var(--reset); }
+  .h-state.unknown   { color: var(--muted); }
 
   .h-time {
     font-family: var(--mono);
@@ -415,9 +415,7 @@
 <body>
 
 <header>
-  <div class="brand">
-    <img class="brand-logo" src="https://i.ibb.co/yn1BN3hF/Peterpack-blanco.png" alt="Peterpack">
-  </div>
+
   <div class="live-pill">
     <div class="live-dot" id="liveDot"></div>
     <span id="liveLabel">Conectando…</span>
