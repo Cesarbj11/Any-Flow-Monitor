@@ -19,20 +19,13 @@
     --muted2:    #6b7a94;
 
     --cyan:      #00c2e0;
-    --cyan-dim:  #00c2e018;
-    --cyan-glow: #00c2e030;
     --lime:      #8dc63f;
-    --lime-dim:  #8dc63f18;
     --gold:      #f5a623;
-    --gold-dim:  #f5a62318;
-    --navy:      #2d3a52;
 
     --fault:    #f5593e;
     --service:  #f0b429;
     --primed:   #3ecf8e;
     --reset:    #6c8ef5;
-    --unknown:  #5a5d65;
-    
 
     --mono:  'DM Mono', monospace;
     --sans:  'Outfit', sans-serif;
@@ -55,7 +48,6 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  /* ── Línea decorativa top ── */
   body::before {
     content: '';
     display: block;
@@ -66,7 +58,6 @@
     z-index: 100;
   }
 
-  /* ── Header ── */
   header {
     display: flex;
     align-items: center;
@@ -79,13 +70,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-
-  .brand-logo {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-    filter: brightness(1.1);
   }
 
   .brand-text {
@@ -123,7 +107,6 @@
     50%       { opacity: 0.6; box-shadow: 0 0 0 4px transparent; }
   }
 
-  /* ── Countdown bar ── */
   .countdown-bar {
     height: 2px;
     background: var(--border);
@@ -139,7 +122,6 @@
     transition: width 1s linear;
   }
 
-  /* ── Error banner ── */
   .error-banner {
     background: #f5593e12;
     border: 1px solid #f5593e40;
@@ -152,7 +134,6 @@
     display: none;
   }
 
-  /* ── Cards ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -180,7 +161,6 @@
     margin-bottom: 12px;
   }
 
-  /* ── State badge ── */
   .state-badge {
     display: inline-flex;
     align-items: center;
@@ -200,13 +180,12 @@
   .state-badge.servicing { background: #f0b42914; color: var(--service); }
   .state-badge.primed    { background: #3ecf8e14; color: var(--primed); }
   .state-badge.reset     { background: #6c8ef514; color: var(--reset); }
-  .state-badge.unknown   { background: #ffffff08; color: var(--muted); } }
+  .state-badge.unknown   { background: #ffffff08; color: var(--muted); }
 
   .state-dot {
     width: 7px; height: 7px;
     border-radius: 50%;
     background: currentColor;
-    -webkit-flex-shrink: 0;
     flex-shrink: 0;
   }
 
@@ -216,7 +195,6 @@
 
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ── Meta grid ── */
   .meta-grid {
     display: flex;
     gap: 6px;
@@ -248,7 +226,6 @@
     font-weight: 500;
   }
 
-  /* ── Mini cards ── */
   .grid2 {
     display: flex;
     gap: 10px;
@@ -273,7 +250,7 @@
   }
 
   .mini:first-child::after { background: var(--gold); opacity: 0.4; }
-  .mini:last-child::after  { background: var(--lime); opacity: 0.4; }
+  .mini:last-child::after  { background: var(--reset); opacity: 0.4; }
 
   .mini-val {
     font-family: var(--mono);
@@ -286,7 +263,6 @@
   .mini-val.service { color: var(--service); }
   .mini-val.reset   { color: var(--reset); }
 
-  /* ── History card ── */
   .history-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -326,12 +302,12 @@
     appearance: none;
   }
 
-  .filter-btn:hover         { color: var(--text); border-color: var(--muted); }
-  .filter-btn.active        { background: var(--border); color: var(--text); }
-  .filter-btn.active.fault  { border-color: var(--fault); color: var(--fault); background: #f5593e0d; }
-  .filter-btn.active.service{ border-color: var(--service); color: var(--service); background: #f0b4290d; }
-  .filter-btn.active.primed { border-color: var(--primed); color: var(--primed); background: #3ecf8e0d; }
-  
+  .filter-btn:hover          { color: var(--text); border-color: var(--muted); }
+  .filter-btn.active         { background: var(--border); color: var(--text); }
+  .filter-btn.active.fault   { border-color: var(--fault);   color: var(--fault);   background: #f5593e0d; }
+  .filter-btn.active.service { border-color: var(--service); color: var(--service); background: #f0b4290d; }
+  .filter-btn.active.primed  { border-color: var(--primed);  color: var(--primed);  background: #3ecf8e0d; }
+
   .history-list {
     max-height: 360px;
     overflow-y: auto;
@@ -367,7 +343,7 @@
   .h-dot.servicing { background: var(--service); }
   .h-dot.primed    { background: var(--primed); }
   .h-dot.reset     { background: var(--reset); }
-  .h-dot.unknown   { background: var(--unknown); }
+  .h-dot.unknown   { background: var(--muted); }
 
   .h-state {
     font-family: var(--mono);
@@ -397,7 +373,6 @@
     font-size: 11px;
   }
 
-  /* ── Footer ── */
   footer {
     margin-top: 24px;
     text-align: center;
@@ -407,15 +382,13 @@
     letter-spacing: 0.07em;
   }
 
-  footer span {
-    color: var(--cyan);
-  }
+  footer span { color: var(--cyan); }
 </style>
 </head>
 <body>
 
 <header>
- <span class="brand">Peterpack · Monitor</span>
+  <span class="brand">Peterpack · Monitor</span>
   <div class="live-pill">
     <div class="live-dot" id="liveDot"></div>
     <span id="liveLabel">Conectando…</span>
@@ -428,7 +401,6 @@
 
 <div class="error-banner" id="errorBanner">⚠ Error de conexión. Verifica tu red.</div>
 
-<!-- Estado actual -->
 <div class="card">
   <div class="label">Estado actual</div>
   <div class="state-badge unknown" id="stateBadge">
@@ -447,7 +419,6 @@
   </div>
 </div>
 
-<!-- Mini cards -->
 <div class="grid2">
   <div class="mini">
     <div class="label">Último SERVICING</div>
@@ -459,7 +430,6 @@
   </div>
 </div>
 
-<!-- Historial -->
 <div class="history-card">
   <div class="history-header">
     <div class="label">Historial de cambios de estado</div>
@@ -477,7 +447,6 @@
 
 <footer>Peterpack Clock · <span id="footerClock">—</span></footer>
 
-<!-- Firebase Compat SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
@@ -497,7 +466,6 @@
 
   function $(id) { return document.getElementById(id); }
 
-  // ── Countdown bar ─────────────────────────────────────
   var countdownSec = 10;
   setInterval(function() {
     countdownSec = countdownSec <= 1 ? 10 : countdownSec - 1;
@@ -506,14 +474,12 @@
     $("nextRead").textContent = countdownSec + "s";
   }, 1000);
 
-  // ── Reloj footer ──────────────────────────────────────
   function tickClock() {
     $("footerClock").textContent = new Date().toLocaleTimeString("es-HN");
   }
   tickClock();
   setInterval(tickClock, 1000);
 
-  // ── Helpers ───────────────────────────────────────────
   function stateClass(state) {
     var s = (state || "").toUpperCase().replace("-", "_");
     if (s === "FAULT")       return "fault";
@@ -539,7 +505,6 @@
     }
   }
 
-  // ── Estado actual ─────────────────────────────────────
   db.ref("current_status").on("value", function(snap) {
     var d = snap.val();
     if (!d) return;
@@ -554,14 +519,12 @@
     console.error("Firebase current_status error:", err);
   });
 
-  // ── Último reset ──────────────────────────────────────
   db.ref("last_reset").on("value", function(snap) {
     var d = snap.val();
     if (!d) return;
     $("lastReset").textContent = fmtTs(d.timestamp);
   });
 
-  // ── Historial ─────────────────────────────────────────
   var allHistory = [];
   var activeFilter = "all";
 
@@ -631,21 +594,18 @@
       console.error("Firebase history error:", err);
     });
 
-  // ── Indicador de conexión ─────────────────────────────
   db.ref(".info/connected").on("value", function(snap) {
     var dot   = $("liveDot");
     var label = $("liveLabel");
     if (snap.val()) {
-      dot.style.background        = "var(--cyan)";
-      dot.style.webkitAnimation   = "pulse 2s infinite";
-      dot.style.animation         = "pulse 2s infinite";
-      label.textContent           = "EN VIVO";
+      dot.style.background      = "var(--cyan)";
+      dot.style.animation       = "pulse 2s infinite";
+      label.textContent         = "EN VIVO";
       $("errorBanner").style.display = "none";
     } else {
-      dot.style.background        = "var(--fault)";
-      dot.style.webkitAnimation   = "none";
-      dot.style.animation         = "none";
-      label.textContent           = "SIN CONEXIÓN";
+      dot.style.background      = "var(--fault)";
+      dot.style.animation       = "none";
+      label.textContent         = "SIN CONEXIÓN";
     }
   });
 </script>
