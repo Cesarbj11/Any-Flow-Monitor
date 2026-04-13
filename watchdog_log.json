@@ -1,0 +1,890 @@
+[
+  {
+    "timestamp": "2026-04-08 16:20:55",
+    "type": "FAULT",
+    "state": "SYSTEM STATE OFF-LINE",
+    "message": "⚠️ FAULT detectado en el sistema"
+  },
+  {
+    "timestamp": "2026-04-08 16:20:55",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (reset #1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-08 16:20:56",
+    "type": "INFO",
+    "state": "",
+    "message": "Buscando Reset con imagen: reset_button.png"
+  },
+  {
+    "timestamp": "2026-04-08 16:20:57",
+    "type": "INFO",
+    "state": "",
+    "message": "Reset clickeado con imagen 'reset_button.png' en posición (1560, 513)"
+  },
+  {
+    "timestamp": "2026-04-08 16:20:57",
+    "type": "RESET",
+    "state": "",
+    "message": "RESET ejecutado correctamente"
+  },
+  {
+    "timestamp": "2026-04-08 16:20:57",
+    "type": "INFO",
+    "state": "",
+    "message": "Esperando 10 segundos antes de la próxima verificación..."
+  },
+  {
+    "timestamp": "2026-04-08 16:21:08",
+    "type": "INFO",
+    "state": "",
+    "message": "Sistema recuperado - FAULT ya no está presente"
+  },
+  {
+    "timestamp": "2026-04-08 23:29:07",
+    "type": "ERROR",
+    "state": "",
+    "message": "Fallo al capturar estado: (3221226091, '')"
+  },
+  {
+    "timestamp": "2026-04-10 11:24:00",
+    "type": "SERVICING",
+    "state": "SYSTEM STATE SERVICING",
+    "message": "🔧 Impresora en SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 11:25:01",
+    "type": "INFO",
+    "state": "",
+    "message": "Sistema recuperado (venía de SERVICING)"
+  },
+  {
+    "timestamp": "2026-04-10 11:34:59",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 11:46:38",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 11:47:30",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 11:54:38",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 11:55:20",
+    "type": "FAULT",
+    "state": "FAULT",
+    "message": "Cambio de estado: SERVICING → FAULT"
+  },
+  {
+    "timestamp": "2026-04-10 11:55:20",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:20",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo activar ventana: Error code from Windows: 0 - The operation completed successfully."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:21",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo hacer clic en RESET."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:31",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:31",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo activar ventana: Error code from Windows: 0 - The operation completed successfully."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:32",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo hacer clic en RESET."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:42",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:42",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo activar ventana: Error code from Windows: 0 - The operation completed successfully."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:43",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo hacer clic en RESET."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:53",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:53",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo activar ventana: Error code from Windows: 0 - The operation completed successfully."
+  },
+  {
+    "timestamp": "2026-04-10 11:55:53",
+    "type": "ERROR",
+    "state": "",
+    "message": "No se pudo hacer clic en RESET."
+  },
+  {
+    "timestamp": "2026-04-10 11:56:04",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 11:56:04",
+    "type": "INFO",
+    "state": "",
+    "message": "Buscando Reset: reset_button.png"
+  },
+  {
+    "timestamp": "2026-04-10 11:56:06",
+    "type": "INFO",
+    "state": "",
+    "message": "Reset clickeado en (1589, 507)"
+  },
+  {
+    "timestamp": "2026-04-10 11:56:06",
+    "type": "RESET",
+    "state": "",
+    "message": "RESET ejecutado correctamente"
+  },
+  {
+    "timestamp": "2026-04-10 11:56:27",
+    "type": "INFO",
+    "state": "_INITIALISING",
+    "message": "Cambio de estado: FAULT → _INITIALISING"
+  },
+  {
+    "timestamp": "2026-04-10 11:57:19",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: _INITIALISING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:00:27",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: PRIMED_IDLE → |"
+  },
+  {
+    "timestamp": "2026-04-10 12:01:51",
+    "type": "INFO",
+    "state": "=E",
+    "message": "Cambio de estado: | → =E"
+  },
+  {
+    "timestamp": "2026-04-10 12:02:02",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: =E → |"
+  },
+  {
+    "timestamp": "2026-04-10 12:02:33",
+    "type": "INFO",
+    "state": "COUNT",
+    "message": "Cambio de estado: | → COUNT"
+  },
+  {
+    "timestamp": "2026-04-10 12:03:05",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: COUNT → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:03:26",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: PRIMED_IDLE → |"
+  },
+  {
+    "timestamp": "2026-04-10 12:03:37",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: | → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:03:48",
+    "type": "INFO",
+    "state": "[|",
+    "message": "Cambio de estado: PRIMED_IDLE → [|"
+  },
+  {
+    "timestamp": "2026-04-10 12:03:58",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: [| → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:08:41",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: PRIMED_IDLE → |"
+  },
+  {
+    "timestamp": "2026-04-10 12:08:51",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: | → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:09:23",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: PRIMED_IDLE → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-10 12:10:15",
+    "type": "INFO",
+    "state": "VELL",
+    "message": "Cambio de estado: UNKNOWN → VELL"
+  },
+  {
+    "timestamp": "2026-04-10 12:10:37",
+    "type": "INFO",
+    "state": "TAN}",
+    "message": "Cambio de estado: VELL → TAN}"
+  },
+  {
+    "timestamp": "2026-04-10 12:10:48",
+    "type": "INFO",
+    "state": "TAN}",
+    "message": "Cambio de estado: None → TAN}"
+  },
+  {
+    "timestamp": "2026-04-10 12:12:46",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 12:49:25",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 12:50:07",
+    "type": "FAULT",
+    "state": "FAULT",
+    "message": "Cambio de estado: SERVICING → FAULT"
+  },
+  {
+    "timestamp": "2026-04-10 12:50:07",
+    "type": "RESET",
+    "state": "",
+    "message": "Presionando RESET (#1 esta hora)..."
+  },
+  {
+    "timestamp": "2026-04-10 12:50:08",
+    "type": "INFO",
+    "state": "",
+    "message": "Buscando Reset: reset_button.png"
+  },
+  {
+    "timestamp": "2026-04-10 12:50:09",
+    "type": "INFO",
+    "state": "",
+    "message": "Reset clickeado en (1674, 450)"
+  },
+  {
+    "timestamp": "2026-04-10 12:50:10",
+    "type": "RESET",
+    "state": "",
+    "message": "RESET ejecutado correctamente"
+  },
+  {
+    "timestamp": "2026-04-10 12:50:30",
+    "type": "INFO",
+    "state": "_INITIALISING",
+    "message": "Cambio de estado: FAULT → _INITIALISING"
+  },
+  {
+    "timestamp": "2026-04-10 12:51:34",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: _INITIALISING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 16:51:42",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 16:51:52",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 18:57:48",
+    "type": "INFO",
+    "state": "JOD",
+    "message": "Cambio de estado: PRIMED_IDLE → JOD"
+  },
+  {
+    "timestamp": "2026-04-10 19:00:25",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: JOD → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-10 19:12:35",
+    "type": "INFO",
+    "state": "—",
+    "message": "Cambio de estado: UNKNOWN → —"
+  },
+  {
+    "timestamp": "2026-04-10 19:12:46",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: — → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-10 19:25:04",
+    "type": "INFO",
+    "state": "JOD",
+    "message": "Cambio de estado: UNKNOWN → JOD"
+  },
+  {
+    "timestamp": "2026-04-10 19:25:15",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: JOD → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-10 20:36:30",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: PRIMED_IDLE → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-10 20:36:41",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: UNKNOWN → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-10 20:37:34",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 02:37:55",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 02:38:06",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 06:38:15",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 06:40:10",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 10:40:28",
+    "type": "INFO",
+    "state": "2\\PROGRAMA\\PRINTER-WATCHDOG\\WATCHDOG.PY",
+    "message": "Cambio de estado: None → 2\\PROGRAMA\\PRINTER-WATCHDOG\\WATCHDOG.PY"
+  },
+  {
+    "timestamp": "2026-04-11 10:40:48",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: 2\\PROGRAMA\\PRINTER-WATCHDOG\\WATCHDOG.PY → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 14:40:39",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 14:40:49",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 16:40:48",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 16:42:51",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:20:57",
+    "type": "INFO",
+    "state": "LODE",
+    "message": "Cambio de estado: PRIMED_IDLE → LODE"
+  },
+  {
+    "timestamp": "2026-04-11 17:21:07",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: LODE → |"
+  },
+  {
+    "timestamp": "2026-04-11 17:21:28",
+    "type": "INFO",
+    "state": "—",
+    "message": "Cambio de estado: | → —"
+  },
+  {
+    "timestamp": "2026-04-11 17:21:38",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: — → |"
+  },
+  {
+    "timestamp": "2026-04-11 17:22:30",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: | → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:22:50",
+    "type": "INFO",
+    "state": "PRINT_READY",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINT_READY"
+  },
+  {
+    "timestamp": "2026-04-11 17:23:01",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRINT_READY → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 17:23:11",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:26:37",
+    "type": "INFO",
+    "state": "PRE_JOB",
+    "message": "Cambio de estado: PRIMED_IDLE → PRE_JOB"
+  },
+  {
+    "timestamp": "2026-04-11 17:26:47",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRE_JOB → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 17:26:58",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:28:00",
+    "type": "INFO",
+    "state": "PRE_JOB",
+    "message": "Cambio de estado: PRIMED_IDLE → PRE_JOB"
+  },
+  {
+    "timestamp": "2026-04-11 17:28:10",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRE_JOB → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 17:28:20",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:40:53",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: PRIMED_IDLE → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-11 17:41:03",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: UNKNOWN → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:42:57",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: PRIMED_IDLE → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-11 17:43:07",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: UNKNOWN → |"
+  },
+  {
+    "timestamp": "2026-04-11 17:43:59",
+    "type": "INFO",
+    "state": "UNKNOWN",
+    "message": "Cambio de estado: | → UNKNOWN"
+  },
+  {
+    "timestamp": "2026-04-11 17:45:42",
+    "type": "INFO",
+    "state": "|",
+    "message": "Cambio de estado: UNKNOWN → |"
+  },
+  {
+    "timestamp": "2026-04-11 17:46:33",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: | → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:46:44",
+    "type": "INFO",
+    "state": "PRINTING",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINTING"
+  },
+  {
+    "timestamp": "2026-04-11 17:46:54",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: PRINTING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 17:51:53",
+    "type": "WARNING",
+    "state": "",
+    "message": "Ventana 'any-FLOW Job Manager' no encontrada"
+  },
+  {
+    "timestamp": "2026-04-11 17:52:03",
+    "type": "WARNING",
+    "state": "",
+    "message": "Ventana 'any-FLOW Job Manager' no encontrada"
+  },
+  {
+    "timestamp": "2026-04-11 18:30:50",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-11 20:03:00",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-11 20:03:10",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-12 02:43:26",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-12 02:45:30",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-12 12:46:10",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-12 12:48:03",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-12 14:04:06",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-12 14:04:16",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-12 18:04:22",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-12 18:04:32",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-12 22:48:45",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-12 22:50:48",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 00:04:46",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-13 00:04:56",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 06:05:09",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-13 06:05:19",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 08:05:18",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-13 08:05:29",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 08:51:30",
+    "type": "SERVICING",
+    "state": "SERVICING",
+    "message": "Cambio de estado: PRIMED_IDLE → SERVICING"
+  },
+  {
+    "timestamp": "2026-04-13 08:53:23",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: SERVICING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 09:47:54",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 09:48:36",
+    "type": "INFO",
+    "state": "MONITOR_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → MONITOR_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 09:53:12",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: MONITOR_OCULTO → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 09:53:27",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:02:14",
+    "type": "INFO",
+    "state": "MONITOR_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → MONITOR_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:02:39",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:02:42",
+    "type": "INFO",
+    "state": "",
+    "message": "Watchdog detenido manualmente."
+  },
+  {
+    "timestamp": "2026-04-13 10:06:21",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:07:52",
+    "type": "INFO",
+    "state": "MONITOR_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → MONITOR_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:09:01",
+    "type": "INFO",
+    "state": "MONITOR_OCULTO",
+    "message": "Cambio de estado: None → MONITOR_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:10:22",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: MONITOR_OCULTO → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:10:32",
+    "type": "INFO",
+    "state": "SHUTTING_DOWN",
+    "message": "Cambio de estado: PRIMED_IDLE → SHUTTING_DOWN"
+  },
+  {
+    "timestamp": "2026-04-13 10:11:34",
+    "type": "INFO",
+    "state": "OFF",
+    "message": "Cambio de estado: SHUTTING_DOWN → OFF"
+  },
+  {
+    "timestamp": "2026-04-13 10:11:45",
+    "type": "INFO",
+    "state": "_INITIALISING",
+    "message": "Cambio de estado: OFF → _INITIALISING"
+  },
+  {
+    "timestamp": "2026-04-13 10:12:47",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: _INITIALISING → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:13:56",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:14:06",
+    "type": "INFO",
+    "state": "PRINTER-INFO_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINTER-INFO_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:15:50",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:26:50",
+    "type": "INFO",
+    "state": "PRINTER-INFO_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINTER-INFO_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:28:25",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: None → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:28:36",
+    "type": "INFO",
+    "state": "PRINTER-INFO_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINTER-INFO_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:29:20",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: PRINTER-INFO_OCULTO → PRIMED_IDLE"
+  },
+  {
+    "timestamp": "2026-04-13 10:30:42",
+    "type": "INFO",
+    "state": "PRINTER-INFO_OCULTO",
+    "message": "Cambio de estado: PRIMED_IDLE → PRINTER-INFO_OCULTO"
+  },
+  {
+    "timestamp": "2026-04-13 10:31:23",
+    "type": "PRIMED_IDLE",
+    "state": "PRIMED_IDLE",
+    "message": "Cambio de estado: PRINTER-INFO_OCULTO → PRIMED_IDLE"
+  }
+]

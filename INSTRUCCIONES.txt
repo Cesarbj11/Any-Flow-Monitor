@@ -1,0 +1,86 @@
+╔══════════════════════════════════════════════════════════════╗
+║           any-FLOW Printer Watchdog — INSTRUCCIONES                             ║
+╚══════════════════════════════════════════════════════════════╝
+
+Hola, este programa lo hice para monitorear la impresora any-FLOW
+automáticamente. Lo que hace es revisar el estado cada 10 segundos,
+y si detecta un FAULT, presiona el botón Reset solito sin que tengas
+que hacer nada. También sube todo en tiempo real a Firebase para que
+lo puedas ver desde el celular o el navegador.
+
+
+
+
+ARCHIVOS QUE HAY EN LA CARPETA
+──────────────────────────────────────
+  watchdog.py          → El programa principal
+  calibrar.py          → Se usa una sola vez para enseñarle dónde está el botón Reset
+  INICIAR_WATCHDOG.bat → El que tienes que abrir para correr el programa
+  reset_button.png     → La foto del botón Reset (se genera al calibrar)
+  watchdog_log.json    → Se crea solo cuando el watchdog está corriendo por primera vez
+
+
+PASO 1 — INSTALAR PYTHON
+─────────────────────────
+  Entra a https://www.python.org/downloads/ y descarga Python 3.11 o mayor.
+
+
+
+PASO 2 — INSTALAR TESSERACT
+─────────────────────────────
+  Tesseract es el programa que le permite al watchdog leer el texto
+  en pantalla (el estado de la impresora).
+
+  1. Entra a: https://github.com/UB-Mannheim/tesseract/wiki
+  2. Descarga el archivo que dice "tesseract-ocr-w64-setup-*.exe"
+  3. Instálalo y deja la ruta por defecto:
+       C:\Program Files\Tesseract-OCR\
+
+
+PASO 3 — INSTALAR LAS LIBRERÍAS
+─────────────────────────────────
+
+  pip install pyautogui pillow pygetwindow pytesseract opencv-python firebase-admin pywin32
+
+
+PASO 4 — CALIBRAR EL BOTÓN RESET (solo se hace una vez)
+─────────────────────────────────────────────────────────
+  Esto es para que el programa sepa cómo se ve el botón Reset
+  en la pantalla. Solo hay que hacerlo una vez.
+
+  1. Abre el programa any-FLOW Job Manager
+  2. Abre CMD y ejecuta:
+       python calibrar.py
+  3. Sigue las instrucciones que aparecen en pantalla
+     (básicamente pones el mouse encima del botón Reset y esperas)
+  4. Se va a guardar automáticamente un archivo "reset_button.png"
+
+  Con eso ya el watchdog sabe dónde hacer clic cuando haya un FAULT.
+
+
+PASO 5 — CORRER EL WATCHDOG
+─────────────────────────────
+  Solo dale doble clic a:  INICIAR_WATCHDOG.ba
+
+
+VER EL ESTADO DESDE EL NAVEGADOR O CELULAR
+────────────────────────────────────────────
+  Abre el archivo monitor.html en cualquier navegador
+
+  Ahí vas a ver el estado actual de la impresora, el historial
+  de cambios y cuándo fue el último Reset. Se actualiza solo
+  cada 10 segundos, no tienes que recargar nada.
+
+PROBLEMAS COMUNES
+──────────────────
+  "Ventana no encontrada"
+     → Asegúrate de que any-FLOW Job Manager esté abierto o que el nombre de la ventana a buscar sea correcto
+
+   El OCR no lee bien el estado
+     → La ventana de any-FLOW no puede estar tapada por otra ventana.
+        Tiene que estar visible en pantalla.
+
+   No hace clic en Reset
+     → Vuelve a correr calibrar.py y recaptura el botón.
+        A veces cambia si mueves la ventana o cambias la resolución.
+
