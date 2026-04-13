@@ -22,10 +22,17 @@
     --lime:      #8dc63f;
     --gold:      #f5a623;
 
-    --fault:    #f5593e;
-    --service:  #f0b429;
-    --primed:   #3ecf8e;
-    --reset:    #6c8ef5;
+    --fault:     #f5593e;
+    --service:   #f0b429;
+    --primed:    #3ecf8e;
+    --reset:     #6c8ef5;
+
+    /* New states */
+    --off:       #94a3b8;
+    --shutdown:  #e879a0;
+    --init:      #38bdf8;
+    --apagado:   #64748b;
+    --printer:   #a78bfa;
 
     --mono:  'DM Mono', monospace;
     --sans:  'Outfit', sans-serif;
@@ -171,16 +178,24 @@
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.06em;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     transition: all 0.35s ease;
     border: 1px solid transparent;
   }
 
-  .state-badge.fault     { background: #f5593e14; color: var(--fault); }
-  .state-badge.servicing { background: #f0b42914; color: var(--service); }
-  .state-badge.primed    { background: #3ecf8e14; color: var(--primed); }
-  .state-badge.reset     { background: #6c8ef514; color: var(--reset); }
-  .state-badge.unknown   { background: #ffffff08; color: var(--muted); }
+  /* ── existing states ── */
+  .state-badge.fault        { background: #f5593e14; color: var(--fault); }
+  .state-badge.servicing    { background: #f0b42914; color: var(--service); }
+  .state-badge.primed       { background: #3ecf8e14; color: var(--primed); }
+  .state-badge.reset        { background: #6c8ef514; color: var(--reset); }
+  .state-badge.unknown      { background: #ffffff08; color: var(--muted); }
+
+  /* ── new states ── */
+  .state-badge.off          { background: #94a3b810; color: var(--off); }
+  .state-badge.shutdown     { background: #e879a012; color: var(--shutdown); }
+  .state-badge.initialising { background: #38bdf812; color: var(--init); }
+  .state-badge.apagado      { background: #64748b12; color: var(--apagado); }
+  .state-badge.printer      { background: #a78bfa12; color: var(--printer); }
 
   .state-dot {
     width: 7px; height: 7px;
@@ -189,11 +204,43 @@
     flex-shrink: 0;
   }
 
-  .state-badge.fault .state-dot {
-    animation: blink 0.9s step-start infinite;
-  }
+  .state-badge.fault .state-dot     { animation: blink 0.9s step-start infinite; }
+  .state-badge.shutdown .state-dot  { animation: blink 1.4s step-start infinite; }
 
   @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── extra-info box ── */
+  .state-info {
+    display: none;
+    margin-bottom: 14px;
+    border-radius: var(--r-sm);
+    padding: 11px 14px;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 1.55;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .state-info.show { display: flex; }
+
+  .state-info.apagado {
+    background: #64748b10;
+    border: 1px solid #64748b35;
+    color: #94a3b8;
+  }
+
+  .state-info.printer {
+    background: #a78bfa10;
+    border: 1px solid #a78bfa35;
+    color: #c4b5fd;
+  }
+
+  .info-icon {
+    font-size: 14px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
 
   .meta-grid {
     display: flex;
@@ -285,6 +332,7 @@
   .filters {
     display: flex;
     gap: 4px;
+    flex-wrap: wrap;
   }
 
   .filter-btn {
@@ -304,9 +352,11 @@
 
   .filter-btn:hover          { color: var(--text); border-color: var(--muted); }
   .filter-btn.active         { background: var(--border); color: var(--text); }
-  .filter-btn.active.fault   { border-color: var(--fault);   color: var(--fault);   background: #f5593e0d; }
-  .filter-btn.active.service { border-color: var(--service); color: var(--service); background: #f0b4290d; }
-  .filter-btn.active.primed  { border-color: var(--primed);  color: var(--primed);  background: #3ecf8e0d; }
+  .filter-btn.active.fault   { border-color: var(--fault);    color: var(--fault);    background: #f5593e0d; }
+  .filter-btn.active.service { border-color: var(--service);  color: var(--service);  background: #f0b4290d; }
+  .filter-btn.active.primed  { border-color: var(--primed);   color: var(--primed);   background: #3ecf8e0d; }
+  .filter-btn.active.off     { border-color: var(--off);      color: var(--off);      background: #94a3b80d; }
+  .filter-btn.active.shutdown{ border-color: var(--shutdown); color: var(--shutdown); background: #e879a00d; }
 
   .history-list {
     max-height: 360px;
@@ -339,11 +389,16 @@
     flex-shrink: 0;
   }
 
-  .h-dot.fault     { background: var(--fault); }
-  .h-dot.servicing { background: var(--service); }
-  .h-dot.primed    { background: var(--primed); }
-  .h-dot.reset     { background: var(--reset); }
-  .h-dot.unknown   { background: var(--muted); }
+  .h-dot.fault        { background: var(--fault); }
+  .h-dot.servicing    { background: var(--service); }
+  .h-dot.primed       { background: var(--primed); }
+  .h-dot.reset        { background: var(--reset); }
+  .h-dot.off          { background: var(--off); }
+  .h-dot.shutdown     { background: var(--shutdown); }
+  .h-dot.initialising { background: var(--init); }
+  .h-dot.apagado      { background: var(--apagado); }
+  .h-dot.printer      { background: var(--printer); }
+  .h-dot.unknown      { background: var(--muted); }
 
   .h-state {
     font-family: var(--mono);
@@ -352,11 +407,16 @@
     flex: 1;
   }
 
-  .h-state.fault     { color: var(--fault); }
-  .h-state.servicing { color: var(--service); }
-  .h-state.primed    { color: var(--primed); }
-  .h-state.reset     { color: var(--reset); }
-  .h-state.unknown   { color: var(--muted); }
+  .h-state.fault        { color: var(--fault); }
+  .h-state.servicing    { color: var(--service); }
+  .h-state.primed       { color: var(--primed); }
+  .h-state.reset        { color: var(--reset); }
+  .h-state.off          { color: var(--off); }
+  .h-state.shutdown     { color: var(--shutdown); }
+  .h-state.initialising { color: var(--init); }
+  .h-state.apagado      { color: var(--apagado); }
+  .h-state.printer      { color: var(--printer); }
+  .h-state.unknown      { color: var(--muted); }
 
   .h-time {
     font-family: var(--mono);
@@ -407,6 +467,19 @@
     <div class="state-dot"></div>
     <span id="stateText">—</span>
   </div>
+
+  <!-- Info extra: PROGRAMA_APAGADO -->
+  <div class="state-info apagado" id="infoApagado">
+    <span class="info-icon">💤</span>
+    <span>Este estado aparece porque el programa fue apagado o la computadora está apagada.</span>
+  </div>
+
+  <!-- Info extra: PRINTER-INFO_OCULTO -->
+  <div class="state-info printer" id="infoPrinter">
+    <span class="info-icon">🖨️</span>
+    <span>El sistema no puede leer la información de estado de la impresora, porque alguna otra ventana lo está tapando o esta está cerrada.</span>
+  </div>
+
   <div class="meta-grid">
     <div class="meta-item">
       <span class="meta-label">Actualizado</span>
@@ -434,10 +507,11 @@
   <div class="history-header">
     <div class="label">Historial de cambios de estado</div>
     <div class="filters">
-      <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todo</button>
-      <button class="filter-btn" data-filter="FAULT" onclick="setFilter('FAULT', this)">Fault</button>
-      <button class="filter-btn" data-filter="SERVICING" onclick="setFilter('SERVICING', this)">Svc</button>
-      <button class="filter-btn" data-filter="PRIMED_IDLE" onclick="setFilter('PRIMED_IDLE', this)">Primed</button>
+      <button class="filter-btn active" data-filter="all"           onclick="setFilter('all',this)">Todo</button>
+      <button class="filter-btn" data-filter="FAULT"               onclick="setFilter('FAULT',this)">Fault</button>
+      <button class="filter-btn" data-filter="SERVICING"           onclick="setFilter('SERVICING',this)">Svc</button>
+      <button class="filter-btn" data-filter="PRIMED_IDLE"         onclick="setFilter('PRIMED_IDLE',this)">Primed</button>
+
     </div>
   </div>
   <div class="history-list" id="historyList">
@@ -466,29 +540,39 @@
 
   function $(id) { return document.getElementById(id); }
 
+  /* ── countdown ── */
   var countdownSec = 10;
   setInterval(function() {
     countdownSec = countdownSec <= 1 ? 10 : countdownSec - 1;
-    var pct = (countdownSec / 10) * 100;
-    $("countdownFill").style.width = pct + "%";
+    $("countdownFill").style.width = ((countdownSec / 10) * 100) + "%";
     $("nextRead").textContent = countdownSec + "s";
   }, 1000);
 
+  /* ── clock ── */
   function tickClock() {
     $("footerClock").textContent = new Date().toLocaleTimeString("es-HN");
   }
   tickClock();
   setInterval(tickClock, 1000);
 
+  /* ── state → CSS class mapping ── */
   function stateClass(state) {
-    var s = (state || "").toUpperCase().replace("-", "_");
-    if (s === "FAULT")       return "fault";
-    if (s === "SERVICING")   return "servicing";
-    if (s === "PRIMED_IDLE") return "primed";
-    if (s === "RESET")       return "reset";
+    var s = (state || "").toUpperCase().replace(/-/g, "_");
+    if (s === "FAULT")              return "fault";
+    if (s === "SERVICING")          return "servicing";
+    if (s === "PRIMED_IDLE")        return "primed";
+    if (s === "RESET")              return "reset";
+    if (s === "OFF")                return "off";
+    if (s === "SHUTTING_DOWN")      return "shutdown";
+    if (s === "_INITIALISING"
+     || s === "INITIALISING")       return "initialising";
+    if (s === "PROGRAMA_APAGADO")   return "apagado";
+    if (s === "PRINTER_INFO_OCULTO"
+     || s === "PRINTER-INFO_OCULTO") return "printer";
     return "unknown";
   }
 
+  /* ── timestamp formatter ── */
   function fmtTs(ts) {
     if (!ts) return "—";
     var d = new Date(ts.replace(" ", "T"));
@@ -505,6 +589,17 @@
     }
   }
 
+  /* ── update extra-info banners ── */
+  function updateInfoBanners(state) {
+    var s = (state || "").toUpperCase().replace(/-/g, "_");
+    var isApagado = (s === "PROGRAMA_APAGADO");
+    var isPrinter = (s === "PRINTER_INFO_OCULTO" || s === "PRINTER-INFO_OCULTO");
+
+    $("infoApagado").classList.toggle("show", isApagado);
+    $("infoPrinter").classList.toggle("show", isPrinter);
+  }
+
+  /* ── current_status listener ── */
   db.ref("current_status").on("value", function(snap) {
     var d = snap.val();
     if (!d) return;
@@ -512,6 +607,7 @@
     $("stateBadge").className = "state-badge " + cls;
     $("stateText").textContent = d.state || "—";
     $("updatedAt").textContent = fmtTs(d.updated_at);
+    updateInfoBanners(d.state);
     countdownSec = 10;
     $("countdownFill").style.width = "100%";
   }, function(err) {
@@ -519,25 +615,29 @@
     console.error("Firebase current_status error:", err);
   });
 
+  /* ── last_reset listener ── */
   db.ref("last_reset").on("value", function(snap) {
     var d = snap.val();
     if (!d) return;
     $("lastReset").textContent = fmtTs(d.timestamp);
   });
 
-  var allHistory = [];
+  /* ── history ── */
+  var allHistory  = [];
   var activeFilter = "all";
 
   window.setFilter = function(filter, btn) {
     activeFilter = filter;
     var btns = document.querySelectorAll(".filter-btn");
     for (var i = 0; i < btns.length; i++) {
-      btns[i].classList.remove("active", "fault", "service", "primed");
+      btns[i].classList.remove("active","fault","service","primed","off","shutdown");
     }
     btn.classList.add("active");
-    if (filter === "FAULT")       btn.classList.add("fault");
-    if (filter === "SERVICING")   btn.classList.add("service");
-    if (filter === "PRIMED_IDLE") btn.classList.add("primed");
+    if (filter === "FAULT")         btn.classList.add("fault");
+    if (filter === "SERVICING")     btn.classList.add("service");
+    if (filter === "PRIMED_IDLE")   btn.classList.add("primed");
+    if (filter === "OFF")           btn.classList.add("off");
+    if (filter === "SHUTTING_DOWN") btn.classList.add("shutdown");
     renderHistory();
   };
 
@@ -556,11 +656,11 @@
     var html = "";
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      var s   = (item.state || "").toUpperCase();
-      var cls = stateClass(s);
-      var lbl = s === "RESET"
+      var s    = (item.state || "").toUpperCase();
+      var cls  = stateClass(s);
+      var lbl  = s === "RESET"
         ? "RESET #" + (item.reset_num || "") + (item.success === false ? " (falló)" : "")
-        : s || "—";
+        : item.state || "—";
       html += '<div class="h-item">' +
         '<div class="h-dot ' + cls + '"></div>' +
         '<span class="h-state ' + cls + '">' + lbl + '</span>' +
@@ -575,16 +675,13 @@
     .limitToLast(100)
     .on("value", function(snap) {
       allHistory = [];
-      snap.forEach(function(child) {
-        allHistory.push(child.val());
-      });
+      snap.forEach(function(child) { allHistory.push(child.val()); });
       allHistory.reverse();
 
       var svc = null;
       for (var i = 0; i < allHistory.length; i++) {
         if ((allHistory[i].state || "").toUpperCase() === "SERVICING") {
-          svc = allHistory[i];
-          break;
+          svc = allHistory[i]; break;
         }
       }
       $("lastService").textContent = svc ? fmtTs(svc.timestamp) : "—";
@@ -594,18 +691,19 @@
       console.error("Firebase history error:", err);
     });
 
+  /* ── connection status ── */
   db.ref(".info/connected").on("value", function(snap) {
     var dot   = $("liveDot");
     var label = $("liveLabel");
     if (snap.val()) {
-      dot.style.background      = "var(--cyan)";
-      dot.style.animation       = "pulse 2s infinite";
-      label.textContent         = "EN VIVO";
+      dot.style.background           = "var(--cyan)";
+      dot.style.animation            = "pulse 2s infinite";
+      label.textContent              = "EN VIVO";
       $("errorBanner").style.display = "none";
     } else {
-      dot.style.background      = "var(--fault)";
-      dot.style.animation       = "none";
-      label.textContent         = "SIN CONEXIÓN";
+      dot.style.background  = "var(--fault)";
+      dot.style.animation   = "none";
+      label.textContent     = "SIN CONEXIÓN";
     }
   });
 </script>
