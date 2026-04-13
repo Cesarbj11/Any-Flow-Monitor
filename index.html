@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="icon" href="https://i.ibb.co/Z6byMCJ8/Logoo-corregido-modified.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>En Mantenimiento · Peterpack</title>
+<title>Monitor · Peterpack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:      #0e0f11;
-    --surface: #16181c;
-    --border:  #242629;
-    --text:    #e8e9eb;
-    --muted:   #5a5d65;
-    --service: #f0b429;
-    --mono:    'DM Mono', monospace;
-    --sans:    'DM Sans', sans-serif;
+    --bg:        #0a0c0f;
+    --surface:   #111418;
+    --surface2:  #181c22;
+    --border:    #1f2530;
+    --border2:   #263040;
+    --text:      #e8edf5;
+    --muted:     #4a5568;
+    --muted2:    #6b7a94;
+
+    --cyan:      #00c2e0;
+    --lime:      #8dc63f;
+    --gold:      #f5a623;
+
+    --fault:    #f5593e;
+    --service:  #f0b429;
+    --primed:   #3ecf8e;
+    --reset:    #6c8ef5;
+
+    --mono:  'DM Mono', monospace;
+    --sans:  'Outfit', sans-serif;
+
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,99 +42,572 @@
     color: var(--text);
     font-family: var(--sans);
     min-height: 100vh;
+    padding: 24px 16px 72px;
+    max-width: 480px;
+    margin: 0 auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body::before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cyan) 0%, var(--lime) 50%, var(--gold) 100%);
+    z-index: 100;
+  }
+
+  header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 28px 18px;
-    text-align: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-top: 8px;
   }
 
-  .icon {
-    font-size: 72px;
-    margin-bottom: 2rem;
-    animation: spin 4s linear infinite;
-    display: inline-block;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  @keyframes spin {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(-15deg); }
-    75%  { transform: rotate(15deg); }
-    100% { transform: rotate(0deg); }
-  }
-
-  h1 {
-    font-family: var(--sans);
-    font-size: clamp(2.5rem, 10vw, 5rem);
-    font-weight: 500;
-    color: var(--text);
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-
-  .sub {
+  .brand-text {
     font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: 0.12em;
+    font-size: 10px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 2.5rem;
+    color: var(--muted2);
   }
 
-  .badge {
-    display: inline-flex;
+  .live-pill {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    background: #f0b42914;
-    border: 1px solid #f0b42930;
-    color: var(--service);
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 5px 10px;
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: 9px;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    border-radius: 8px;
+    color: var(--muted2);
   }
 
-  .badge-dot {
-    width: 6px;
-    height: 6px;
+  .live-dot {
+    width: 6px; height: 6px;
     border-radius: 50%;
-    background: var(--service);
-    animation: pulse 1.5s ease-in-out infinite;
+    background: var(--primed);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 #3ecf8e60; }
+    50%       { opacity: 0.7; box-shadow: 0 0 0 5px transparent; }
+  }
+
+  .countdown-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .countdown-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--lime));
+    border-radius: 1px;
+    transition: width 1s linear;
+  }
+
+  .error-banner {
+    background: #f5593e12;
+    border: 1px solid #f5593e40;
+    color: var(--fault);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    margin-bottom: 12px;
+    display: none;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 20px 18px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .state-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: var(--r-sm);
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+    transition: all 0.35s ease;
+    border: 1px solid transparent;
+  }
+
+  .state-badge.fault     { background: #f5593e14; color: var(--fault); }
+  .state-badge.servicing { background: #f0b42914; color: var(--service); }
+  .state-badge.primed    { background: #3ecf8e14; color: var(--primed); }
+  .state-badge.reset     { background: #6c8ef514; color: var(--reset); }
+  .state-badge.unknown   { background: #ffffff08; color: var(--muted); }
+
+  .state-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .state-badge.fault .state-dot {
+    animation: blink 0.9s step-start infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .meta-grid {
+    display: flex;
+    gap: 6px;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 10px 12px;
+  }
+
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .grid2 {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .mini {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 16px 14px;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mini::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .mini:first-child::after { background: var(--gold); opacity: 0.4; }
+  .mini:last-child::after  { background: var(--reset); opacity: 0.4; }
+
+  .mini-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .mini-val.service { color: var(--service); }
+  .mini-val.reset   { color: var(--reset); }
+
+  .history-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+
+  .history-header {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--surface2);
+  }
+
+  .history-header .label { margin: 0; }
+
+  .filters {
+    display: flex;
+    gap: 4px;
+  }
+
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 6px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.2s;
+    appearance: none;
+  }
+
+  .filter-btn:hover          { color: var(--text); border-color: var(--muted); }
+  .filter-btn.active         { background: var(--border); color: var(--text); }
+  .filter-btn.active.fault   { border-color: var(--fault);   color: var(--fault);   background: #f5593e0d; }
+  .filter-btn.active.service { border-color: var(--service); color: var(--service); background: #f0b4290d; }
+  .filter-btn.active.primed  { border-color: var(--primed);  color: var(--primed);  background: #3ecf8e0d; }
+
+  .history-list {
+    max-height: 360px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .history-list::-webkit-scrollbar { width: 3px; }
+  .history-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .h-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeIn 0.25s ease;
+  }
+
+  .h-item:last-child { border-bottom: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-3px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .h-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .h-dot.fault     { background: var(--fault); }
+  .h-dot.servicing { background: var(--service); }
+  .h-dot.primed    { background: var(--primed); }
+  .h-dot.reset     { background: var(--reset); }
+  .h-dot.unknown   { background: var(--muted); }
+
+  .h-state {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .h-state.fault     { color: var(--fault); }
+  .h-state.servicing { color: var(--service); }
+  .h-state.primed    { color: var(--primed); }
+  .h-state.reset     { color: var(--reset); }
+  .h-state.unknown   { color: var(--muted); }
+
+  .h-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .empty {
+    padding: 32px;
+    text-align: center;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
   }
 
   footer {
-    position: fixed;
-    bottom: 24px;
+    margin-top: 24px;
+    text-align: center;
     font-family: var(--mono);
     font-size: 10px;
     color: var(--muted);
     letter-spacing: 0.07em;
   }
+
+  footer span { color: var(--cyan); }
 </style>
 </head>
 <body>
 
-  <div class="icon">🔧</div>
-
-  <h1>En mantenimiento</h1>
-
-  <p class="sub">Peterpack · Monitor</p>
-
-  <div class="badge">
-    <div class="badge-dot"></div>
-    Trabajando...
+<header>
+  <span class="brand">Peterpack · Monitor</span>
+  <div class="live-pill">
+    <div class="live-dot" id="liveDot"></div>
+    <span id="liveLabel">Conectando…</span>
   </div>
+</header>
 
-  <footer>Peterpack Clock</footer>
+<div class="countdown-bar">
+  <div class="countdown-fill" id="countdownFill" style="width:100%"></div>
+</div>
 
+<div class="error-banner" id="errorBanner">⚠ Error de conexión. Verifica tu red.</div>
+
+<div class="card">
+  <div class="label">Estado actual</div>
+  <div class="state-badge unknown" id="stateBadge">
+    <div class="state-dot"></div>
+    <span id="stateText">—</span>
+  </div>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <span class="meta-label">Actualizado</span>
+      <span class="meta-val" id="updatedAt">—</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Próxima lectura</span>
+      <span class="meta-val" id="nextRead">—</span>
+    </div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="mini">
+    <div class="label">Último SERVICING</div>
+    <div class="mini-val service" id="lastService">—</div>
+  </div>
+  <div class="mini">
+    <div class="label">Último RESET automático</div>
+    <div class="mini-val reset" id="lastReset">—</div>
+  </div>
+</div>
+
+<div class="history-card">
+  <div class="history-header">
+    <div class="label">Historial de cambios de estado</div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todo</button>
+      <button class="filter-btn" data-filter="FAULT" onclick="setFilter('FAULT', this)">Fault</button>
+      <button class="filter-btn" data-filter="SERVICING" onclick="setFilter('SERVICING', this)">Svc</button>
+      <button class="filter-btn" data-filter="PRIMED_IDLE" onclick="setFilter('PRIMED_IDLE', this)">Primed</button>
+    </div>
+  </div>
+  <div class="history-list" id="historyList">
+    <div class="empty">Cargando…</div>
+  </div>
+</div>
+
+<footer>Peterpack Clock · <span id="footerClock">—</span></footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey:            "AIzaSyBXsuOvQk-JVtXP_EnWf2K-txONns4IUWk",
+    authDomain:        "monitor-maquina-22b37.firebaseapp.com",
+    projectId:         "monitor-maquina-22b37",
+    storageBucket:     "monitor-maquina-22b37.firebasestorage.app",
+    messagingSenderId: "624010630834",
+    appId:             "1:624010630834:web:7105f06566b0ff5b935bab",
+    databaseURL:       "https://monitor-maquina-22b37-default-rtdb.firebaseio.com"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.database();
+
+  function $(id) { return document.getElementById(id); }
+
+  var countdownSec = 10;
+  setInterval(function() {
+    countdownSec = countdownSec <= 1 ? 10 : countdownSec - 1;
+    var pct = (countdownSec / 10) * 100;
+    $("countdownFill").style.width = pct + "%";
+    $("nextRead").textContent = countdownSec + "s";
+  }, 1000);
+
+  function tickClock() {
+    $("footerClock").textContent = new Date().toLocaleTimeString("es-HN");
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  function stateClass(state) {
+    var s = (state || "").toUpperCase().replace("-", "_");
+    if (s === "FAULT")       return "fault";
+    if (s === "SERVICING")   return "servicing";
+    if (s === "PRIMED_IDLE") return "primed";
+    if (s === "RESET")       return "reset";
+    return "unknown";
+  }
+
+  function fmtTs(ts) {
+    if (!ts) return "—";
+    var d = new Date(ts.replace(" ", "T"));
+    if (isNaN(d.getTime())) return ts;
+    try {
+      return d.toLocaleString("es-HN", {
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      });
+    } catch(e) {
+      var pad = function(n) { return n < 10 ? "0" + n : n; };
+      return d.getDate() + "/" + (d.getMonth()+1) + " " +
+             pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+  }
+
+  db.ref("current_status").on("value", function(snap) {
+    var d = snap.val();
+    if (!d) return;
+    var cls = stateClass(d.state);
+    $("stateBadge").className = "state-badge " + cls;
+    $("stateText").textContent = d.state || "—";
+    $("updatedAt").textContent = fmtTs(d.updated_at);
+    countdownSec = 10;
+    $("countdownFill").style.width = "100%";
+  }, function(err) {
+    $("errorBanner").style.display = "block";
+    console.error("Firebase current_status error:", err);
+  });
+
+  db.ref("last_reset").on("value", function(snap) {
+    var d = snap.val();
+    if (!d) return;
+    $("lastReset").textContent = fmtTs(d.timestamp);
+  });
+
+  var allHistory = [];
+  var activeFilter = "all";
+
+  window.setFilter = function(filter, btn) {
+    activeFilter = filter;
+    var btns = document.querySelectorAll(".filter-btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.remove("active", "fault", "service", "primed");
+    }
+    btn.classList.add("active");
+    if (filter === "FAULT")       btn.classList.add("fault");
+    if (filter === "SERVICING")   btn.classList.add("service");
+    if (filter === "PRIMED_IDLE") btn.classList.add("primed");
+    renderHistory();
+  };
+
+  function renderHistory() {
+    var items = activeFilter === "all"
+      ? allHistory
+      : allHistory.filter(function(i) {
+          return (i.state || "").toUpperCase() === activeFilter;
+        });
+
+    if (items.length === 0) {
+      $("historyList").innerHTML = '<div class="empty">Sin eventos</div>';
+      return;
+    }
+
+    var html = "";
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var s   = (item.state || "").toUpperCase();
+      var cls = stateClass(s);
+      var lbl = s === "RESET"
+        ? "RESET #" + (item.reset_num || "") + (item.success === false ? " (falló)" : "")
+        : s || "—";
+      html += '<div class="h-item">' +
+        '<div class="h-dot ' + cls + '"></div>' +
+        '<span class="h-state ' + cls + '">' + lbl + '</span>' +
+        '<span class="h-time">' + fmtTs(item.timestamp) + '</span>' +
+        '</div>';
+    }
+    $("historyList").innerHTML = html;
+  }
+
+  db.ref("history")
+    .orderByChild("timestamp")
+    .limitToLast(100)
+    .on("value", function(snap) {
+      allHistory = [];
+      snap.forEach(function(child) {
+        allHistory.push(child.val());
+      });
+      allHistory.reverse();
+
+      var svc = null;
+      for (var i = 0; i < allHistory.length; i++) {
+        if ((allHistory[i].state || "").toUpperCase() === "SERVICING") {
+          svc = allHistory[i];
+          break;
+        }
+      }
+      $("lastService").textContent = svc ? fmtTs(svc.timestamp) : "—";
+      renderHistory();
+    }, function(err) {
+      $("errorBanner").style.display = "block";
+      console.error("Firebase history error:", err);
+    });
+
+  db.ref(".info/connected").on("value", function(snap) {
+    var dot   = $("liveDot");
+    var label = $("liveLabel");
+    if (snap.val()) {
+      dot.style.background      = "var(--cyan)";
+      dot.style.animation       = "pulse 2s infinite";
+      label.textContent         = "EN VIVO";
+      $("errorBanner").style.display = "none";
+    } else {
+      dot.style.background      = "var(--fault)";
+      dot.style.animation       = "none";
+      label.textContent         = "SIN CONEXIÓN";
+    }
+  });
+</script>
 </body>
 </html>
