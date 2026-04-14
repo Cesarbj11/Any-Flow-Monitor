@@ -1,3 +1,11 @@
+"""
+╔══════════════════════════════════════════════════════════╗
+║   any-FLOW Printer Watchdog                              ║
+║   Envía estado OCR a Firebase cada 10 segundos           ║
+║   Historial solo en cambios de estado                    ║
+║   Cola offline: guarda y reenvía cuando vuelve internet  ║
+╚══════════════════════════════════════════════════════════╝
+"""
 
 import pyautogui
 import pygetwindow as gw
@@ -7,6 +15,7 @@ import os
 import sys
 import atexit
 import signal
+import socket
 import urllib.request
 from datetime import datetime
 from PIL import ImageGrab, Image
@@ -25,6 +34,7 @@ class Colors:
     CYAN       = "\033[36m"
     RED        = "\033[31m"
     GRAY       = "\033[90m"
+    MAGENTA    = "\033[35m"
 
 if sys.platform == "win32":
     try:
@@ -42,6 +52,7 @@ WINDOW_TITLE         = "any-FLOW Job Manager"
 CHECK_INTERVAL_SEC   = 10                  # Enviar estado a Firebase cada 10 s
 MAX_RESETS_PER_HOUR  = 10
 LOG_FILE             = "watchdog_log.json"
+OFFLINE_QUEUE_FILE   = "offline_queue.json"   # Cola de eventos sin internet
 WAIT_AFTER_RESET_SEC = 10
 
 RESET_BUTTON_IMAGES  = ["reset_button.png", "reset_button_alt.png"]
@@ -49,7 +60,7 @@ BUTTON_CONFIDENCE    = 0.8
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-# Estados conocidos 
+# Estados conocidos — el OCR debería devolver exactamente uno de estos
 KNOWN_STATES = ["FAULT", "SERVICING", "PRIMED_IDLE"]
 
 # ─────────────────────────────────────────────
@@ -63,37 +74,157 @@ firebase_admin.initialize_app(cred, {
     "databaseURL": "https://monitor-maquina-22b37-default-rtdb.firebaseio.com"
 })
 
-def firebase_put(path: str, data: dict):
-    """Sobreescribe un nodo (PUT)."""
+# ─────────────────────────────────────────────
+#  DETECCIÓN DE INTERNET
+# ─────────────────────────────────────────────
+
+_internet_ok = None   # None = desconocido, True/False = estado actual
+
+def check_internet(host="8.8.8.8", port=53, timeout=3) -> bool:
+    """
+    Verifica conectividad real abriendo un socket TCP a Google DNS.
+    Rápido, sin depender de HTTP ni de Firebase.
+    """
     try:
-        admin_db.reference(path).set(data)
-    except Exception as e:
-        print(f"{Colors.RED}[Firebase] PUT {path}: {e}{Colors.RESET}")
+        socket.setdefaulttimeout(timeout)
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+        return True
+    except (socket.error, OSError):
+        return False
+
+def internet_status() -> bool:
+    """
+    Devuelve True/False e imprime en consola SOLO cuando el estado cambia.
+    """
+    global _internet_ok
+    ok = check_internet()
+    if ok != _internet_ok:
+        if ok:
+            print(f"{Colors.GREEN}[{_now()}] 🌐  INTERNET RECUPERADO — enviando cola pendiente...{Colors.RESET}")
+        else:
+            print(f"{Colors.YELLOW}[{_now()}] 📵  SIN INTERNET — guardando eventos en cola local{Colors.RESET}")
+        _internet_ok = ok
+    return ok
+
+# ─────────────────────────────────────────────
+#  COLA OFFLINE
+# ─────────────────────────────────────────────
+
+def _load_queue() -> list:
+    if not os.path.exists(OFFLINE_QUEUE_FILE):
+        return []
+    try:
+        with open(OFFLINE_QUEUE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+def _save_queue(queue: list):
+    with open(OFFLINE_QUEUE_FILE, "w", encoding="utf-8") as f:
+        json.dump(queue, f, indent=2, ensure_ascii=False)
+
+def enqueue(operation: str, path: str, data: dict):
+    """
+    Guarda una operación Firebase en la cola local cuando no hay internet.
+    operation: "put" | "post"
+    """
+    queue = _load_queue()
+    queue.append({
+        "operation": operation,
+        "path":      path,
+        "data":      data,
+        "queued_at": _now()
+    })
+    _save_queue(queue)
+
+def flush_queue():
+    """
+    Intenta enviar todos los eventos acumulados en la cola offline.
+    Se llama automáticamente cuando se detecta que volvió el internet.
+    Devuelve True si la cola quedó vacía.
+    """
+    queue = _load_queue()
+    if not queue:
+        return True
+
+    print(f"{Colors.CYAN}[{_now()}] 📤  Reenviando {len(queue)} evento(s) acumulados...{Colors.RESET}")
+    pending = []
+    for item in queue:
+        try:
+            if item["operation"] == "put":
+                admin_db.reference(item["path"]).set(item["data"])
+            else:
+                admin_db.reference(item["path"]).push(item["data"])
+        except Exception as e:
+            # Si falla este ítem, lo deja en la cola para el próximo intento
+            print(f"{Colors.RED}[Cola] Error reenviando {item['path']}: {e}{Colors.RESET}")
+            pending.append(item)
+
+    _save_queue(pending)
+    if not pending:
+        print(f"{Colors.GREEN}[{_now()}] ✅  Cola vaciada correctamente{Colors.RESET}")
+        return True
+    else:
+        print(f"{Colors.YELLOW}[{_now()}] ⚠️   Quedaron {len(pending)} evento(s) sin enviar{Colors.RESET}")
+        return False
+
+# ─────────────────────────────────────────────
+#  HELPERS
+# ─────────────────────────────────────────────
+
+def _now() -> str:
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# ─────────────────────────────────────────────
+#  OPERACIONES FIREBASE (con cola offline)
+# ─────────────────────────────────────────────
+
+def firebase_put(path: str, data: dict):
+    """
+    PUT a Firebase. Si no hay internet guarda en cola y lo reintenta luego.
+    Nunca lanza excepción al caller.
+    """
+    if internet_status():
+        flush_queue()   # aprovechar que hay internet para vaciar cola primero
+        try:
+            admin_db.reference(path).set(data)
+            return
+        except Exception as e:
+            print(f"{Colors.RED}[Firebase] PUT {path}: {e}{Colors.RESET}")
+            # Pudo haber internet pero falló Firebase → encolar igual
+    enqueue("put", path, data)
 
 def firebase_post(path: str, data: dict):
-    """Agrega con ID único (POST)."""
-    try:
-        admin_db.reference(path).push(data)
-    except Exception as e:
-        print(f"{Colors.RED}[Firebase] POST {path}: {e}{Colors.RESET}")
+    """
+    POST a Firebase. Si no hay internet guarda en cola y lo reintenta luego.
+    Nunca lanza excepción al caller.
+    """
+    if internet_status():
+        flush_queue()
+        try:
+            admin_db.reference(path).push(data)
+            return
+        except Exception as e:
+            print(f"{Colors.RED}[Firebase] POST {path}: {e}{Colors.RESET}")
+    enqueue("post", path, data)
 
 def push_current(state: str):
     """Actualiza current_status cada 10 segundos con el estado leído."""
     firebase_put("current_status", {
         "state":      state,
-        "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "updated_at": _now()
     })
 
 def push_history(state: str):
     """Agrega al historial solo cuando cambia el estado."""
     firebase_post("history", {
         "state":     state,
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "timestamp": _now()
     })
 
 def push_reset(reset_num: int, success: bool):
     """Registra evento RESET en historial y last_reset."""
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = _now()
     firebase_put("last_reset", {
         "reset_number": reset_num,
         "success":      success,
@@ -107,18 +238,18 @@ def push_reset(reset_num: int, success: bool):
     })
 
 # ─────────────────────────────────────────────
-#  CIERRE LIMPIO 
+#  CIERRE LIMPIO (X, Ctrl+C, taskkill)
 # ─────────────────────────────────────────────
 
 _shutdown_sent = False   # evitar doble envío
 
 def push_shutdown():
-    """Envía estado WATCHDOG_DETENIDO a Firebase al cerrar el programa."""
+    """Envía estado PROGRAMA_APAGADO a Firebase al cerrar el programa."""
     global _shutdown_sent
     if _shutdown_sent:
         return
     _shutdown_sent = True
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = _now()
     try:
         firebase_put("current_status", {
             "state":      "PROGRAMA_APAGADO",
@@ -149,13 +280,14 @@ except ImportError:
         signal.signal(signal.SIGBREAK, lambda s, f: (push_shutdown(), sys.exit(0)))
     except AttributeError:
         pass
+
 # ─────────────────────────────────────────────
 #  LOGGER LOCAL (JSON)
 # ─────────────────────────────────────────────
 
 def log(event_type: str, message: str, state: str = ""):
     entry = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": _now(),
         "type":      event_type,
         "state":     state,
         "message":   message
@@ -260,7 +392,7 @@ def get_system_state(window) -> str:
                 if after:
                     return after.split()[0] if after.split() else after
 
-        # Si nunca apareció "SYSTEM STATE" significa que la ventana esta oculta, minimizada o tapada
+        # Si nunca apareció "SYSTEM STATE" → ventana oculta, minimizada o tapada
         if not system_state_found:
             return "PRINTER-INFO_OCULTO"
 
@@ -309,9 +441,15 @@ def main():
     print("  any-FLOW Watchdog — INICIADO")
     print(f"  Intervalo: {CHECK_INTERVAL_SEC}s | Max resets/hora: {MAX_RESETS_PER_HOUR}")
     print(f"  Firebase: {FIREBASE_URL}")
-    print(f"  Log local: {os.path.abspath(LOG_FILE)}")
+    print(f"  Log local:   {os.path.abspath(LOG_FILE)}")
+    print(f"  Cola offline: {os.path.abspath(OFFLINE_QUEUE_FILE)}")
     print("  Ctrl+C para detener")
     print("=" * 55)
+
+    # Mostrar cola pendiente al arrancar
+    pending_start = _load_queue()
+    if pending_start:
+        print(f"{Colors.MAGENTA}[Inicio] Hay {len(pending_start)} evento(s) en cola offline del arranque anterior{Colors.RESET}")
 
     if not check_dependencies():
         log("ERROR", "Faltan dependencias.")
@@ -327,6 +465,10 @@ def main():
             if datetime.now().hour != hour_mark:
                 hour_mark        = datetime.now().hour
                 resets_this_hour = 0
+
+            # ── Si hay cola pendiente e internet, vaciar PRIMERO ──────────
+            if _load_queue() and check_internet():
+                flush_queue()
 
             window = get_printer_window()
             if not window:
@@ -344,9 +486,13 @@ def main():
                 "PRIMED_IDLE":    Colors.GREEN,
                 "MONITOR_OCULTO": Colors.RED,
             }.get(state, Colors.GRAY)
-            print(f"{color}[{datetime.now().strftime('%H:%M:%S')}] {state}{Colors.RESET}")
+
+            # Indicador de internet al lado del estado
+            net_icon = "🌐" if _internet_ok else "📵"
+            print(f"{color}[{datetime.now().strftime('%H:%M:%S')}] {net_icon} {state}{Colors.RESET}")
 
             # 3. Siempre actualizar current_status en Firebase (cada 10s)
+            #    Si no hay internet, firebase_put lo encola automáticamente
             push_current(state)
 
             # 4. Historial solo si cambió el estado
@@ -388,5 +534,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-#By Cesarbj11
