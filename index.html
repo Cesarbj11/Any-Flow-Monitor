@@ -519,7 +519,7 @@
   <span class="stale-icon">⏱</span>
   <div class="stale-body">
     <div class="stale-title">Estado sin actualizar</div>
-    <div class="stale-desc">El estado no se ha actualizado durante más de 1 hora. Es probable que el sistema no tenga internet o esté apagado.</div>
+    <div class="stale-desc">El estado no se ha actualizado durante más de 10 minutos. Es probable que el sistema no tenga internet o esté apagado.</div>
     <div class="stale-since" id="staleSince"></div>
   </div>
 </div>
@@ -602,7 +602,7 @@
 
   /* ── stale state check ── */
   var lastUpdatedMs = null;
-  var STALE_MS = 60 * 60 * 1000; // 1 hora
+  var STALE_MS = 10 * 60 * 1000; // 10 minutos
 
   function checkStale() {
     if (lastUpdatedMs === null) return;
