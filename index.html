@@ -27,7 +27,6 @@
     --primed:    #3ecf8e;
     --reset:     #6c8ef5;
 
-    /* New states */
     --off:       #94a3b8;
     --shutdown:  #e879a0;
     --init:      #38bdf8;
@@ -141,6 +140,64 @@
     display: none;
   }
 
+  /* ── stale warning banner ── */
+  .stale-banner {
+    background: #f5a62312;
+    border: 1px solid #f5a62345;
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    display: none;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .stale-banner.show {
+    display: flex;
+  }
+
+  .stale-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .stale-body {
+    flex: 1;
+  }
+
+  .stale-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .stale-desc {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: #c28a3a;
+    line-height: 1.5;
+  }
+
+  .stale-since {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted2);
+    margin-top: 6px;
+  }
+
+  @keyframes stale-pulse {
+    0%, 100% { border-color: #f5a62345; }
+    50%       { border-color: #f5a62380; }
+  }
+
+  .stale-banner.show {
+    animation: stale-pulse 3s ease-in-out infinite;
+  }
+
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -183,14 +240,11 @@
     border: 1px solid transparent;
   }
 
-  /* ── existing states ── */
   .state-badge.fault        { background: #f5593e14; color: var(--fault); }
   .state-badge.servicing    { background: #f0b42914; color: var(--service); }
   .state-badge.primed       { background: #3ecf8e14; color: var(--primed); }
   .state-badge.reset        { background: #6c8ef514; color: var(--reset); }
   .state-badge.unknown      { background: #ffffff08; color: var(--muted); }
-
-  /* ── new states ── */
   .state-badge.off          { background: #94a3b810; color: var(--off); }
   .state-badge.shutdown     { background: #e879a012; color: var(--shutdown); }
   .state-badge.initialising { background: #38bdf812; color: var(--init); }
@@ -209,7 +263,6 @@
 
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ── extra-info box ── */
   .state-info {
     display: none;
     margin-bottom: 14px;
@@ -461,6 +514,16 @@
 
 <div class="error-banner" id="errorBanner">⚠ Error de conexión. Verifica tu red.</div>
 
+<!-- ── Stale state warning ── -->
+<div class="stale-banner" id="staleBanner">
+  <span class="stale-icon">⏱</span>
+  <div class="stale-body">
+    <div class="stale-title">Estado sin actualizar</div>
+    <div class="stale-desc">El estado no se ha actualizado durante más de 1 hora. Es probable que el sistema no tenga internet o esté apagado.</div>
+    <div class="stale-since" id="staleSince"></div>
+  </div>
+</div>
+
 <div class="card">
   <div class="label">Estado actual</div>
   <div class="state-badge unknown" id="stateBadge">
@@ -468,13 +531,11 @@
     <span id="stateText">—</span>
   </div>
 
-  <!-- Info extra: PROGRAMA_APAGADO -->
   <div class="state-info apagado" id="infoApagado">
     <span class="info-icon">💤</span>
     <span>Este estado aparece porque el programa fue apagado o la computadora está apagada.</span>
   </div>
 
-  <!-- Info extra: PRINTER-INFO_OCULTO -->
   <div class="state-info printer" id="infoPrinter">
     <span class="info-icon">🖨️</span>
     <span>El sistema no puede leer la información de estado de la impresora, porque alguna otra ventana lo está tapando o esta está cerrada.</span>
@@ -511,7 +572,6 @@
       <button class="filter-btn" data-filter="FAULT"               onclick="setFilter('FAULT',this)">Fault</button>
       <button class="filter-btn" data-filter="SERVICING"           onclick="setFilter('SERVICING',this)">Svc</button>
       <button class="filter-btn" data-filter="PRIMED_IDLE"         onclick="setFilter('PRIMED_IDLE',this)">Primed</button>
-
     </div>
   </div>
   <div class="history-list" id="historyList">
@@ -539,6 +599,33 @@
   var db = firebase.database();
 
   function $(id) { return document.getElementById(id); }
+
+  /* ── stale state check ── */
+  var lastUpdatedMs = null;
+  var STALE_MS = 60 * 60 * 1000; // 1 hora
+
+  function checkStale() {
+    if (lastUpdatedMs === null) return;
+    var elapsed = Date.now() - lastUpdatedMs;
+    var banner  = $("staleBanner");
+    var since   = $("staleSince");
+
+    if (elapsed >= STALE_MS) {
+      banner.classList.add("show");
+      var mins = Math.floor(elapsed / 60000);
+      var hrs  = Math.floor(mins / 60);
+      var rem  = mins % 60;
+      var label = hrs > 0
+        ? "Sin actualizar hace " + hrs + "h " + (rem > 0 ? rem + "m" : "")
+        : "Sin actualizar hace " + mins + " min";
+      since.textContent = label.trim();
+    } else {
+      banner.classList.remove("show");
+    }
+  }
+
+  // Revisar cada minuto
+  setInterval(checkStale, 60000);
 
   /* ── countdown ── */
   var countdownSec = 10;
@@ -589,12 +676,18 @@
     }
   }
 
+  /* ── parse timestamp a ms ── */
+  function tsToMs(ts) {
+    if (!ts) return null;
+    var d = new Date(ts.replace(" ", "T"));
+    return isNaN(d.getTime()) ? null : d.getTime();
+  }
+
   /* ── update extra-info banners ── */
   function updateInfoBanners(state) {
     var s = (state || "").toUpperCase().replace(/-/g, "_");
     var isApagado = (s === "PROGRAMA_APAGADO");
     var isPrinter = (s === "PRINTER_INFO_OCULTO" || s === "PRINTER-INFO_OCULTO");
-
     $("infoApagado").classList.toggle("show", isApagado);
     $("infoPrinter").classList.toggle("show", isPrinter);
   }
@@ -610,6 +703,13 @@
     updateInfoBanners(d.state);
     countdownSec = 10;
     $("countdownFill").style.width = "100%";
+
+    // Actualizar el timestamp para el chequeo de stale
+    var ms = tsToMs(d.updated_at);
+    if (ms !== null) {
+      lastUpdatedMs = ms;
+      checkStale();
+    }
   }, function(err) {
     $("errorBanner").style.display = "block";
     console.error("Firebase current_status error:", err);
