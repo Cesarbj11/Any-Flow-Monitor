@@ -772,7 +772,6 @@
 
   db.ref("history")
     .orderByChild("timestamp")
-    .limitToLast(100)
     .on("value", function(snap) {
       allHistory = [];
       snap.forEach(function(child) { allHistory.push(child.val()); });
